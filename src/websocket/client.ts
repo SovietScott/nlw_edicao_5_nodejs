@@ -13,7 +13,7 @@ io.on("connect", (socket) => {
   const userService = new UsersServices();
   const messageService = new MessagesService();
 
-  socket.on("client_first_acess", async (params) => {
+  socket.on("client_first_access", async (params) => {
     const socket_id = socket.id;
     const {text, email} = params as IParams;
     let user_id = null;
@@ -45,7 +45,7 @@ io.on("connect", (socket) => {
 
     await messageService.create({
       text,
-      user_id
+      user_id,
     });
 
     const allMessages = await messageService.listByUser(user_id);
@@ -61,7 +61,7 @@ io.on("connect", (socket) => {
       const {user_id} = await connectionsService.findBySocketId(socket.id);
       const message = await messageService.create({
         text,
-        user_id
+        user_id,
       })
 
       io.to(socket_admin_id).emit("admin_receive_message", {
